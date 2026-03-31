@@ -246,6 +246,139 @@ button {
   line-height: 1.35;
 }
 
+.solver-box {
+  min-height: 0;
+}
+
+.solver-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.solver-pill {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #74d6ff;
+  background: rgba(30, 136, 229, 0.14);
+  border: 1px solid rgba(116, 214, 255, 0.18);
+}
+
+.solver-status,
+.solver-empty {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: #d9e6ff;
+}
+
+.solver-steps {
+  margin-top: 8px;
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.solver-steps::-webkit-scrollbar {
+  width: 6px;
+}
+
+.solver-steps::-webkit-scrollbar-thumb {
+  background: rgba(116, 214, 255, 0.35);
+  border-radius: 999px;
+}
+
+.solver-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: rgba(9, 18, 35, 0.64);
+  border: 1px solid rgba(103, 168, 255, 0.1);
+}
+
+.solver-step.active {
+  border-color: rgba(116, 214, 255, 0.38);
+  background: rgba(18, 48, 92, 0.78);
+}
+
+.solver-step-number {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(116, 214, 255, 0.16);
+  color: #74d6ff;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.solver-step-move {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #f7fbff;
+}
+.solve-menu-box {
+  display: grid;
+  gap: 8px;
+  z-index: 100;
+}
+
+.solve-menu-toggle {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid rgba(137, 225, 255, 0.24);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #13284b 0%, #0d1d37 100%);
+  color: #f7fbff;
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.solve-menu-toggle:hover {
+  filter: brightness(1.06);
+}
+
+.solver-box-inline {
+  padding-top: 2px;
+  min-height: 0;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.solver-box-inline::-webkit-scrollbar {
+  width: 6px;
+}
+
+.solver-box-inline::-webkit-scrollbar-thumb {
+  background: rgba(116, 214, 255, 0.35);
+  border-radius: 999px;
+}
+
+.solve-menu-closed {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: #8fb4e3;
+}
+
 .controls-box {
   min-height: 0;
   display: flex;
@@ -259,7 +392,7 @@ button {
 }
 
 .move-btn {
-  min-height: 50px;
+  min-height: 85px;
   padding: 6px 4px;
   border: 1px solid rgba(86, 167, 255, 0.28);
   border-radius: 8px;
@@ -283,18 +416,26 @@ button {
   filter: brightness(1.05);
 }
 
+.move-btn:disabled,
+.action-btn:disabled {
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.2);
+  opacity: 0.6;
+}
+
 .move-btn:active {
   transform: translateY(0);
 }
 
 .move-label {
-  font-size: 0.72rem;
+  font-size: 1rem;
   font-weight: 800;
 }
 
 .move-key {
-  font-size: 0.54rem;
-  opacity: 0.72;
+  font-size: 1rem;
+  opacity: 0.80;
 }
 
 .action-box {
@@ -308,11 +449,11 @@ button {
 }
 
 .action-btn {
-  min-height: 40px;
+  min-height: 60px;
   padding: 6px 8px;
   border: 1px solid transparent;
   border-radius: 8px;
-  font-size: 0.7rem;
+  font-size: 1rem;
   font-weight: 800;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -358,9 +499,12 @@ button {
   border-color: rgba(173, 233, 171, 0.24);
 }
 
-.action-box .reset-btn {
-  grid-column: 1 / -1;
+.auto-solve-btn {
+  background: linear-gradient(180deg, #c98ed1 0%, #c73dc7 100%);
+  color: #fff7ff;
+  border-color: rgba(241, 186, 255, 0.24);
 }
+
 
 .dashboard-note {
   font-size: 0.68rem;
@@ -562,6 +706,15 @@ button {
   .status-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .solver-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .solve-menu-toggle {
+    font-size: 0.76rem;
   }
 
   .button-grid {

@@ -48,6 +48,20 @@ export interface CubeState {
   bottom: Color[];
 }
 
+export type MoveName =
+  | 'U'
+  | "U'"
+  | 'D'
+  | "D'"
+  | 'L'
+  | "L'"
+  | 'R'
+  | "R'"
+  | 'F'
+  | "F'"
+  | 'B'
+  | "B'";
+
 /**
  * Initialize a solved Rubik's Cube
  * Each face is filled with its initial color
@@ -274,6 +288,83 @@ export function rotateB_Prime(cube: CubeState): CubeState {
   return rotateB(rotateB(rotateB(cube)));
 }
 
+export const MOVE_DEFINITIONS: Array<{
+  name: MoveName;
+  keyHint: string;
+  label: string;
+}> = [
+  { name: 'U', keyHint: 'U', label: 'U' },
+  { name: "U'", keyHint: 'Shift+U', label: "U'" },
+  { name: 'D', keyHint: 'D', label: 'D' },
+  { name: "D'", keyHint: 'Shift+D', label: "D'" },
+  { name: 'L', keyHint: 'L', label: 'L' },
+  { name: "L'", keyHint: 'Shift+L', label: "L'" },
+  { name: 'R', keyHint: 'R', label: 'R' },
+  { name: "R'", keyHint: 'Shift+R', label: "R'" },
+  { name: 'F', keyHint: 'F', label: 'F' },
+  { name: "F'", keyHint: 'Shift+F', label: "F'" },
+  { name: 'B', keyHint: 'B', label: 'B' },
+  { name: "B'", keyHint: 'Shift+B', label: "B'" },
+];
+
+const MOVE_FUNCTIONS: Record<MoveName, (cube: CubeState) => CubeState> = {
+  U: rotateU,
+  "U'": rotateU_Prime,
+  D: rotateD,
+  "D'": rotateD_Prime,
+  L: rotateL,
+  "L'": rotateL_Prime,
+  R: rotateR,
+  "R'": rotateR_Prime,
+  F: rotateF,
+  "F'": rotateF_Prime,
+  B: rotateB,
+  "B'": rotateB_Prime,
+};
+
+const INVERSE_MOVE_MAP: Record<MoveName, MoveName> = {
+  U: "U'",
+  "U'": 'U',
+  D: "D'",
+  "D'": 'D',
+  L: "L'",
+  "L'": 'L',
+  R: "R'",
+  "R'": 'R',
+  F: "F'",
+  "F'": 'F',
+  B: "B'",
+  "B'": 'B',
+};
+
+export function applyMove(cube: CubeState, move: MoveName): CubeState {
+  return MOVE_FUNCTIONS[move](cube);
+}
+
+export function applyMoves(cube: CubeState, moves: MoveName[]): CubeState {
+  return moves.reduce((currentCube, move) => applyMove(currentCube, move), cube);
+}
+
+export function invertMove(move: MoveName): MoveName {
+  return INVERSE_MOVE_MAP[move];
+}
+
+export function invertMoves(moves: MoveName[]): MoveName[] {
+  return [...moves].reverse().map(invertMove);
+}
+
+export function generateScrambleSequence(moveCount: number = 20): MoveName[] {
+  const moves = MOVE_DEFINITIONS.map((definition) => definition.name);
+  const scramble: MoveName[] = [];
+
+  for (let i = 0; i < moveCount; i++) {
+    const randomMove = moves[Math.floor(Math.random() * moves.length)];
+    scramble.push(randomMove);
+  }
+
+  return scramble;
+}
+
 /**
  * Check if the cube is solved (all faces are uniform in color)
  */
@@ -287,28 +378,7 @@ export function isSolved(cube: CubeState): boolean {
  * Scramble the cube with random moves
  */
 export function scrambleCube(cube: CubeState, moveCount: number = 20): CubeState {
-  const moves = [
-    rotateU,
-    rotateD,
-    rotateL,
-    rotateR,
-    rotateF,
-    rotateB,
-    rotateU_Prime,
-    rotateD_Prime,
-    rotateL_Prime,
-    rotateR_Prime,
-    rotateF_Prime,
-    rotateB_Prime,
-  ];
-  
-  let result = cube;
-  for (let i = 0; i < moveCount; i++) {
-    const randomMove = moves[Math.floor(Math.random() * moves.length)];
-    result = randomMove(result);
-  }
-  
-  return result;
+  return applyMoves(cube, generateScrambleSequence(moveCount));
 }
 
 /**

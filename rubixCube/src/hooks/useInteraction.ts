@@ -13,27 +13,17 @@
 
 import { useEffect } from 'react';
 import {
-  rotateU,
-  rotateD,
-  rotateL,
-  rotateR,
-  rotateF,
-  rotateB,
-  rotateU_Prime,
-  rotateD_Prime,
-  rotateL_Prime,
-  rotateR_Prime,
-  rotateF_Prime,
-  rotateB_Prime,
-  type CubeState,
+  type MoveName,
 } from '../utils/cubeLogic';
 
 export function useInteraction(
-  onRotate: (newCube: CubeState) => void,
-  cube: CubeState
+  onMove: (move: MoveName) => void,
+  disabled: boolean = false
 ) {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
+      if (disabled) return;
+
       // Let browser/system shortcuts keep their default behavior.
       if (e.ctrlKey || e.metaKey || e.altKey || e.key === 'F5') return;
 
@@ -50,32 +40,32 @@ export function useInteraction(
         ? e.code.slice(3).toUpperCase()
         : e.key.toUpperCase();
 
-      const rotations: Record<string, (c: CubeState) => CubeState> = {
-        U: rotateU,
-        D: rotateD,
-        L: rotateL,
-        R: rotateR,
-        F: rotateF,
-        B: rotateB,
+      const clockwiseMoves: Record<string, MoveName> = {
+        U: 'U',
+        D: 'D',
+        L: 'L',
+        R: 'R',
+        F: 'F',
+        B: 'B',
       };
 
-      const primeRotations: Record<string, (c: CubeState) => CubeState> = {
-        U: rotateU_Prime,
-        D: rotateD_Prime,
-        L: rotateL_Prime,
-        R: rotateR_Prime,
-        F: rotateF_Prime,
-        B: rotateB_Prime,
+      const primeMoves: Record<string, MoveName> = {
+        U: "U'",
+        D: "D'",
+        L: "L'",
+        R: "R'",
+        F: "F'",
+        B: "B'",
       };
 
-      const rotation = e.shiftKey ? primeRotations[key] : rotations[key];
-      if (!rotation) return;
+      const move = e.shiftKey ? primeMoves[key] : clockwiseMoves[key];
+      if (!move) return;
 
       e.preventDefault();
-      onRotate(rotation(cube));
+      onMove(move);
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [onRotate, cube]);
+  }, [disabled, onMove]);
 }
