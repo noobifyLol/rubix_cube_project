@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "cube-solver": "^2.4.1"
+    "cube-solver": "^2.4.1",
+    "three": "^0.160.0", 
+  "react": "^18.2.0",
+  "react-dom": "^18.2.0"
   }
 }
