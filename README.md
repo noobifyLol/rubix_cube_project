@@ -5,21 +5,21 @@
 ![Three.js](https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-## 🎯 Executive Summary
+##  Executive Summary
 **RubixCube** is a full-stack, browser-based 3D Rubik's Cube environment featuring a sophisticated automated solver. While the project originated from an interest in 3D graphics and UI/UX design, it evolved into a deep exploration of **Group Theory**, **Graph Search Algorithms**, and **Computational Optimization**.
 
 The result is a production-ready application capable of solving any valid cube state in **under 500ms** using a custom implementation of the **Thistlethwaite Algorithm**.
 
 ---
 
-## 💡 The "Why" (Inspiration & Intent)
+##  The "Why" (Inspiration & Intent)
 The project was sparked by a viral technical demonstration of 3D rendering within a web browser. Intrigued by the intersection of mathematics and visual art, I leveraged **Three.js** to build a functional cube.
 
 As a non-cuber in the physical world, I recognized a unique opportunity: to bridge the gap between my manual inability to solve the puzzle and my technical ability to engineer a solution. This project served as a playground to apply **Competitive Programming** techniques—such as **IDA* search** and **bitmasking**—to a complex, real-world spatial problem.
 
 ---
 
-## ⚙️ Technical Architecture & Key Features
+##  Technical Architecture & Key Features
 
 ### 1. 3D Graphics & Interaction Engine
 * **Technology:** Built with **React-Three.js**.
@@ -35,7 +35,7 @@ As a non-cuber in the physical world, I recognized a unique opportunity: to brid
 
 ---
 
-## 🛠️ Engineering Challenges
+##  Engineering Challenges
 
 ### **The "Parity Paradox" & Orbit Separation**
 * **The Problem:** Early iterations of the solver frequently hit "Infinite Search" traps.
@@ -52,14 +52,14 @@ As a non-cuber in the physical world, I recognized a unique opportunity: to brid
 
 ---
 
-## 🎓 Lessons Learned
+##  Lessons Learned
 * **Math > Brute Force:** Complex problems are often solved more efficiently by understanding the underlying mathematical constraints (Group Theory) than by adding more compute power.
 * **Immutability is Scalable:** Transitioning to immutable state transformations in the cube logic eliminated 90% of state-corruption bugs.
 * **User-Centric Design:** Even the most powerful algorithm is useless without an intuitive interface. Implementing "Hints" and "Solve Plans" transformed a raw math tool into an educational experience.
 
 ---
 
-## 📦 How to Deploy Locally
+##  How to Deploy Locally
 1.  **Clone:** `git clone https://github.com/noobifyLol/rubix_cube_project`
 2.  **Install:** `npm install`
 3.  **Run:** `npm run dev`
