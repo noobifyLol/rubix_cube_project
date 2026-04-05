@@ -14,7 +14,7 @@
 import { useEffect } from 'react';
 import {
   type MoveName,
-} from '../utils/cubeLogic';
+} from '../logic/cubeLogic';
 
 export function useInteraction(
   onMove: (move: MoveName) => void,

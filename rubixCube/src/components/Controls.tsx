@@ -7,7 +7,7 @@
 import {
   MOVE_DEFINITIONS,
   type MoveName,
-} from '../utils/cubeLogic';
+} from '../logic/cubeLogic';
 
 interface ControlsProps {
   onMove: (move: MoveName) => void;

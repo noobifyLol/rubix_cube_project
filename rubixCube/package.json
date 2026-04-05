@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:solver-debug": "node ./scripts/build-solver-debug.mjs",
+    "build:pruning-tables": "npm run build:solver-debug && node ./scripts/generate-pruning-tables.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },
