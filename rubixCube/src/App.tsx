@@ -814,7 +814,12 @@ function App() {
     
     console.timeEnd('Total time');
     console.log(`%c✓ Complete: ${successful} solved, ${failed} failed, avg ${avgSolveTime.toFixed(2)}ms`, 'color: #00AA00; font-weight: bold;');
-    console.table(results.map(r => ({ Batch: r.batchNum, Scramble: r.scrambleMoves.join(' '), Solution: r.solveMoves?.join(' ') || 'FAILED', Time: `${r.solveTime}ms` || 'N/A' })));
+    console.table(results.map((r) => ({
+      Batch: r.batchNum,
+      Scramble: r.scrambleMoves.join(' '),
+      Solution: r.solveMoves?.join(' ') || 'FAILED',
+      Time: r.solveTime !== undefined ? `${r.solveTime}ms` : 'N/A',
+    })));
   }, [isAutoSolving, isPlanningSolve, isWorkerReady, requestSolvePlan]);
 
 

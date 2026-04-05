@@ -12,7 +12,6 @@ import {
   faceletsToCubieState,
   isPhase1Solved,
   isPhase2Solved,
-  isPhase3Solved,
   isSolvedCubieState,
   permutationParity,
   getSliceIndex,
@@ -102,7 +101,6 @@ function lehmerRank4(perm: number[]): number {
 }
 
 // ─── Phase 3 pruning table ────────────────────────────────────────────────────
-const _P3_TETRAD_A = new Set([0, 2, 5, 7]);
 const _P3_ORBIT_A  = new Set([0, 2, 4, 6]);
 
 const _MASK4_TO_IDX = new Int8Array(256).fill(-1);
@@ -115,21 +113,6 @@ const _MASK4_TO_IDX = new Int8Array(256).fill(-1);
     if (count === 4) _MASK4_TO_IDX[mask] = idx++;
   }
 })();
-
-function _p3Index(cp: number[], ep: number[]): number {
-  let cMask = 0;
-  let eMask = 0;
-  for (let i = 0; i < 8; i++) {
-    if (_P3_TETRAD_A.has(cp[i])) cMask |= (1 << i);
-    if (_P3_ORBIT_A.has(ep[i]))  eMask |= (1 << i);
-  }
-  const ci = _MASK4_TO_IDX[cMask];
-  const ei = _MASK4_TO_IDX[eMask];
-  if (ci < 0 || ei < 0) return -1;
-  const cpP = permutationParity(cp);
-  const epP = permutationParity(ep);
-  return (ci * 70 + ei) * 4 + cpP * 2 + epP;
-}
 
 // ─── Lehmer rank for 8 elements ───────────────────────────────────────────────
 function lehmerRank8(perm: number[]): number {

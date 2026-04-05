@@ -3,28 +3,48 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// TARGET PATH: This maps to your specific project structure
 const OUTPUT_FILE = path.join(__dirname, '..', 'src', 'data', 'pruning-tables.json');
 
+function hasValidTables(tables) {
+  return (
+    tables &&
+    Array.isArray(tables.flip) &&
+    tables.flip.length === 2048 &&
+    Array.isArray(tables.twist) &&
+    tables.twist.length === 2187 &&
+    Array.isArray(tables.slice) &&
+    tables.slice.length === 495
+  );
+}
+
+function loadExistingTables() {
+  if (!fs.existsSync(OUTPUT_FILE)) {
+    return null;
+  }
+
+  try {
+    const raw = fs.readFileSync(OUTPUT_FILE, 'utf8');
+    const parsed = JSON.parse(raw);
+    return hasValidTables(parsed) ? parsed : null;
+  } catch (error) {
+    console.error('Existing pruning table file could not be read:', error);
+    return null;
+  }
+}
+
 function generateTables() {
-    console.log("Generating Thistlethwaite Pruning Tables...");
+  console.log('Generating Thistlethwaite Pruning Tables...');
 
-    // This is a placeholder structure based on your algorithm's needs
-    // Replace the empty arrays with your actual generation logic if needed
-    const tables = {
-        flip: new Array(2048).fill(0),   // Edge Orientation
-        twist: new Array(2187).fill(0),  // Corner Orientation
-        slice: new Array(495).fill(0)    // Slice Edges
-    };
+  const existingTables = loadExistingTables();
+  if (existingTables) {
+    console.log(`Using existing pruning tables at: ${OUTPUT_FILE}`);
+    return;
+  }
 
-    try {
-        fs.writeFileSync(OUTPUT_FILE, JSON.stringify(tables));
-        console.log(`Successfully wrote pruning tables to: ${OUTPUT_FILE}`);
-    } catch (err) {
-        console.error("Failed to write pruning tables:", err);
-        process.exit(1);
-    }
+  console.error(
+    'No valid pruning tables were found. This script no longer writes placeholder tables because that breaks the deployed solver.'
+  );
+  process.exit(1);
 }
 
 generateTables();
