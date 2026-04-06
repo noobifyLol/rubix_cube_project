@@ -52,10 +52,26 @@ As a non-cuber in the physical world, I recognized a unique opportunity: to brid
 
 ---
 
-##  Lessons Learned
-* **Math > Brute Force:** Complex problems are often solved more efficiently by understanding the underlying mathematical constraints (Group Theory) than by adding more compute power.
-* **Immutability is Scalable:** Transitioning to immutable state transformations in the cube logic eliminated 90% of state-corruption bugs.
-* **User-Centric Design:** Even the most powerful algorithm is useless without an intuitive interface. Implementing "Hints" and "Solve Plans" transformed a raw math tool into an educational experience.
+# Engineering Retrospective: Key Lessons
+
+### 1. Algorithmic Optimization
+* **Group Theory over Brute Force:** Decomposing $4.3 \times 10^{19}$ states into nested subgroups (Thistlethwaite) is more efficient than raw search.
+* **Admissible Heuristics:** In IDA* search, heuristics must never overestimate distance; inaccuracies lead to exponential "mathematical dead ends."
+* **Closed Orbit Pruning:** Identifying sets of pieces that cannot swap (orbits) allows the search to skip billions of unreachable states.
+
+### 2. Systems Architecture
+* **Typed Arrays for Performance:** Using `Int16Array` for lookup tables bypasses JavaScript Garbage Collection (GC) overhead, enabling sub-50ms solve times.
+* **Build-Time Pre-computation:** Generating BFS pruning tables during the build process ensures the application is functionally ready at runtime.
+* **Main Thread Sanitization:** Offloading search logic to Web Workers maintains a consistent 60 FPS for 3D rendering.
+
+### 3. Software Principles
+* **Immutable State:** Returning new state objects rather than mutating the cube eliminated 90% of recursive state-corruption bugs.
+* **Decoupled Logic/Graphics:** Strict separation between `CubeLogic` and `CubeRenderer` allowed for independent iteration on the math vs. the view.
+* **Asynchronous Handshaking:** Promise-based synchronization prevents race conditions where logic state changes outpace visual animations.
+
+### 4. UX & Perceived Performance
+* **Feedback Loops:** Solve plans and progress indicators are as critical as the algorithm speed for maintaining user trust.
+* **Metric Selection:** Optimizing for Half-Turn Metric (HTM) produces shorter, more intuitive solutions for the end user.
 
 ---
 
