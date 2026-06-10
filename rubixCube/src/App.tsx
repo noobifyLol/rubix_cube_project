@@ -537,23 +537,27 @@ function App() {
       }),
     [isWorkerReady],
   );
+    const requestAnimatedMove = (move : MoveName) =>{
+      setActiveAnimatedMove({
+        move : move,
+        token : ++nextAnimationTokenRef.current,
+      });
+    };
 
   const handleMove = (move: MoveName) => {
     if (isAutoSolving || isPlanningSolve) {
       return;
     }
 
-    setCube((currentCube) => applyMove(currentCube, move));
-    setMoveHistory((history) => [...history, move]);
-    setMoveCount((count) => count + 1);
-    setShowHint(false);
-    triggerRotationFeedback();
+    requestAnimatedMove(move);
+  
+  setMoveHistory((history) => [...history, move]);
+  setShowHint(false);
+  triggerRotationFeedback();
 
-    if (autoSolveSteps.length > 0 || activeSolveStepIndex >= 0) {
-      clearAutoSolvePanel(
-        'The cube changed, so the previous auto-solve plan was cleared. Ask again for a fresh plan.',
-      );
-    }
+  if (autoSolveSteps.length > 0 || activeSolveStepIndex >= 0) {
+    clearAutoSolvePanel('The cube changed, so the previous auto-solve plan was cleared.');
+  }
   };
 
   useInteraction(handleMove, isAutoSolving || isPlanningSolve);
